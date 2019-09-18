@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createUser, hasErrored } from '../../actions'
+import { createUser, hasErrored, addMessages } from '../../actions'
 import { startConversation } from '../../apiCalls';
 import './WelcomeModal.css'
 
@@ -30,16 +30,16 @@ export class WelcomeModal extends Component {
         lastName,
         feeling,
       });
+      this.connectToChatBot();
     } else {
       this.setState({ error: 'Missing a value for an input field'})
     }
-    this.connectToChatBot();
   }
 
   connectToChatBot = async () => {
     try {
       const firstMessage = await startConversation(this.state.feeling);
-      this.props.addMessage(firstMessage.message, false);
+      this.props.addMessages(firstMessage, false);
     } catch({ message }) {
       this.props.hasErrored(message);
     }
@@ -80,6 +80,6 @@ export class WelcomeModal extends Component {
   }
 }
 
-export const mapDispatchToProps = dispatch => bindActionCreators({ createUser, hasErrored }, dispatch)
+export const mapDispatchToProps = dispatch => bindActionCreators({ createUser, hasErrored, addMessages }, dispatch)
 
 export default connect(null, mapDispatchToProps)(WelcomeModal);

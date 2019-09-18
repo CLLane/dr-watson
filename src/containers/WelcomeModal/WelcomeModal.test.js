@@ -9,13 +9,13 @@ jest.mock('../../apiCalls');
 describe('WelcomeModal component', () => {
   let wrapper
   const mockCreateUser = jest.fn();
-  const mockAddMessage = jest.fn();
+  const mockAddMessages = jest.fn();
   const mockHasErrored = jest.fn();
 
   beforeEach(() => {
     wrapper = shallow(<WelcomeModal
       createUser={mockCreateUser}
-      addMessage={mockAddMessage}
+      addMessages={mockAddMessages}
       hasErrored={mockHasErrored}
     />);
   });
@@ -86,7 +86,7 @@ describe('WelcomeModal component', () => {
     await wrapper.instance().connectToChatBot();
 
     expect(startConversation).toHaveBeenCalledWith('happy');
-    expect(mockAddMessage).toHaveBeenCalledWith(mockMessage.message, false);
+    expect(mockAddMessages).toHaveBeenCalledWith(mockMessage, false);
   });
 
   it('should call hasErrored with correct arguments if connectToChatBot rejects', async () => {

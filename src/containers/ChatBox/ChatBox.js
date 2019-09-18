@@ -1,16 +1,16 @@
-import React, { Component, createRef } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { hasErrored } from '../../actions';
-import { postMessage } from '../../apiCalls';
-import Message from '../../components/Message/Message'
+import React, { Component, createRef } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { hasErrored, addMessages } from "../../actions";
+import { postMessage } from "../../apiCalls";
+import Message from "../../components/Message/Message";
 
-import "./ChatBox.css"
+import "./ChatBox.css";
 
 export class ChatBox extends Component {
   constructor() {
     super();
-    this.state = { message: '' }
+    this.state = { message: "" };
     this.convo = createRef();
   }
 
@@ -20,50 +20,48 @@ export class ChatBox extends Component {
 
   handleChange = e => {
     this.setState({ message: e.target.value });
-  }
+  };
 
   handleSubmit = e => {
-    if (e.key === 'Enter' || e.button === 0) {
+    if (e.key === "Enter" || e.button === 0) {
       const { message } = this.state;
-      console.log('message :', message);
-      this.props.addMessage(message, true);
+      this.props.addMessages({ message: message }, true);
+      this.setState({ message: "" });
       this.messageChatBot();
-      this.setState({ message: '' });
     }
-  }
+  };
 
   messageChatBot = async () => {
     try {
       const messageResponse = await postMessage(this.state.message);
-      this.props.addMessage(messageResponse.message, false);
-    } catch({ message }) {
-      this.props.hasErrored(message)  
+      this.props.addMessages({ message: messageResponse.message }, false);
+    } catch ({ message }) {
+      this.props.hasErrored(message);
     }
-  }
+  };
 
   render() {
-    console.log('this.state :', this.state);
     const { message } = this.state;
     const { messages, errorMsg } = this.props;
 
     const survey = messages.map((message, i) => {
-      let messageThing = message.messages[i];
-      console.log('messageThing :', messageThing);
-      return <Message
-        key={`message${i}`}
-        message={messageThing.message}
-        isUser={messageThing.isUser}
-      />
-    })
+      return (
+        <Message
+          key={`message${i}`}
+          message={message.message}
+          isUser={message.isUser}
+        />
+      );
+    });
     return (
       <main className="chat-container">
-        <section className="conversation" ref={node => this.convo = node}>
+        <section className="conversation" ref={node => (this.convo = node)}>
           {survey}
           {errorMsg && <p className="message watson error">{errorMsg}</p>}
         </section>
         <section className="messenger">
           <input
-            placeholder='Chat with Survey Bot here...'
+            placeholder="Chat with Survey Bot here..."
             value={message}
             onChange={this.handleChange}
             onKeyPress={this.handleSubmit}
@@ -71,16 +69,19 @@ export class ChatBox extends Component {
           <button onClick={this.handleSubmit}>Submit</button>
         </section>
       </main>
-    )
+    );
   }
 }
 
-export const mapStateToProps = ({ errorMsg, messages, message }) => ({
+export const mapStateToProps = ({ errorMsg, messages }) => ({
   errorMsg,
-  messages,
-  message
-})
+  messages
+});
 
-export const mapDispatchToProps = dispatch => bindActionCreators({ hasErrored }, dispatch);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators({ hasErrored, addMessages }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatBox);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatBox);
