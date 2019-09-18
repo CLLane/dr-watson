@@ -25,6 +25,7 @@ export class ChatBox extends Component {
   handleSubmit = e => {
     if (e.key === 'Enter' || e.button === 0) {
       const { message } = this.state;
+      console.log('message :', message);
       this.props.addMessage(message, true);
       this.setState({ message: '' });
       this.messageChatBot();
@@ -41,12 +42,16 @@ export class ChatBox extends Component {
   }
 
   render() {
+    console.log('this.state :', this.state);
     const { message } = this.state;
     const { messages, errorMsg } = this.props;
+
     const survey = messages.map((message, i) => {
+      console.log('message :', message);
+      let messageThing = message.messages[i];
       return <Message
         key={`message${i}`}
-        message={message.message}
+        message={messageThing.message}
         isUser={message.isUser}
       />
     })
@@ -70,8 +75,10 @@ export class ChatBox extends Component {
   }
 }
 
-export const mapStateToProps = ({ errorMsg }) => ({
-  errorMsg
+export const mapStateToProps = ({ errorMsg, messages, message }) => ({
+  errorMsg,
+  messages,
+  message
 })
 
 export const mapDispatchToProps = dispatch => bindActionCreators({ hasErrored }, dispatch);
