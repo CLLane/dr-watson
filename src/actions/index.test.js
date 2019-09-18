@@ -44,7 +44,7 @@ it('Should have a type of ADD_MESSAGE', () => {
 
   let mockMessage = [{ message: 'Oh no' }]
 
-  const result = actions.addMessage(mockMessage)
+  const result = actions.addMessages(mockMessage)
 
   expect(result).toEqual(expectedAction)
 })
@@ -56,7 +56,7 @@ it('Should have a type of CLEAR_MESSAGE', () => {
 
   let mockMessage = [{ message: 'Oh no' }]
 
-  const result = actions.clearMessage(mockMessage)
+  const result = actions.clearMessages(mockMessage)
 
   expect(result).toEqual(expectedAction)
 })

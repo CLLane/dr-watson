@@ -92,18 +92,44 @@ describe('endConversation', () => {
   });
 });
 
-it('should be called with the correct url', () => {
-  const url = 'https://drwatson-api.herokuapp.com/api/message'
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ })
-  };
-  postMessage()
+describe('postMessage', () => {
 
-  expect(window.fetch).toHaveBeenCalledWith(url, options)
-})
+  it('should be called with the correct url', () => {
+    const url = 'https://drwatson-api.herokuapp.com/api/message'
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ })
+    };
+    postMessage()
+  
+    expect(window.fetch).toHaveBeenCalledWith(url, options)
+  
+  })
+  it('should return a message if resolved (HAPY)', () => {
+    const message = {message:  'second chances are amazing thank you'}
+    window.fetch = jest.fn().mockImplementation(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(message)
+      });
+    });
+    expect(postMessage()).resolves.toEqual(message)
+  })
+  it('should give an error if the fetch is unsuccesful (SAD)', () => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      return Promise.reject(Error('Didnt work'));
+    });
+    expect(postMessage()).rejects.toEqual(Error('Didnt work'));
+  })
+  it('should give an error if the ok comes back as false', () => {
+    window.fetch = jest.fn().mockImplementation(() => {
+      return Promise.resolve({ok: false});
+    });
+    expect(postMessage()).rejects.toEqual(Error('Dr Watson is currently down.  Please try again later.'))
+  });
+});
 
 

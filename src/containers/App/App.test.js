@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { App, mapStateToProps, mapDispatchToProps } from './App';
-import { removeUser, hasErrored } from '../../actions';
+import { removeUser, hasErrored, clearMessages } from '../../actions';
 import { endConversation } from '../../apiCalls';
 
 jest.mock('../../apiCalls');
@@ -67,17 +67,19 @@ describe('mapStateToProps', () => {
       lastName: "Rollins", 
       feeling: "tired"
     };
+    const mockMessages = [{
+      message: 'Hi there, my name is Dr. Watson. I understand that you have been feeling happy. That is super exciting to hear!',
+      isUser: false,
+    }]
 
     const mockState = {
       user: mockUser,
-      messages: [{
-        message: 'Hi there, my name is Dr. Watson. I understand that you have been feeling happy. That is super exciting to hear!',
-        isUser: false,
-      }],
+      messages: mockMessages,
       errorMsg: ''
     };
     const expected = {
-      user: mockUser
+      user: mockUser,
+      messages: mockMessages
     }
 
     const mappedProps = mapStateToProps(mockState);
@@ -106,4 +108,12 @@ describe('mapDispatchToProps', () => {
 
     expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
   });
+  it('calls dispatch wit a clearMessages action when clearMessages is called', () => {
+    const mockDispatch = jest.fn();
+    const actionToDispatch = clearMessages();
+    const mappedProps = mapDispatchToProps(mockDispatch);
+    mappedProps.clearMessages()
+
+    expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
+  })
 });

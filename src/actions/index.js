@@ -12,12 +12,13 @@ export const hasErrored = errorMsg => ({
   errorMsg
 })
 
-export const addMessage = message => ({
+export const addMessages =(message, isUser) => ({
   type: 'ADD_MESSAGE',
-  message
+  message,
+  isUser
 })
 
-export const clearMessage = message => ({
+export const clearMessages = message => ({
   type: 'CLEAR_MESSAGE',
   message
 })

@@ -4,26 +4,26 @@ import { bindActionCreators } from 'redux';
 import Header from '../Header/Header';
 import WelcomeModal from '../WelcomeModal/WelcomeModal';
 import ChatBox from '../ChatBox/ChatBox';
-import { removeUser, hasErrored, addMessage, clearMessage } from '../../actions';
+import { removeUser, hasErrored, clearMessages } from '../../actions';
 import { endConversation } from '../../apiCalls';
 import './App.css';
 
 export class App extends Component {
 
-  addMessage = (message, isUser) => {
-    const { messages } = this.props;
-    this.props.addMessage({ messages: [...messages, { message, isUser }]});
-  }
+  // addMessage = (message, isUser) => {
+  //   const { messages } = this.props;
+  //   this.props.addMessage({ messages: [...messages, { message, isUser }]});
+  // }
 
-  clearMessages = () => {
-    this.props.clearMessage({ messages: [] });
-  }
+  // clearMessages = () => {
+  //   this.props.clearMessage({ messages: [] });
+  // }
 
   signOut = async () => {
     try {
       await endConversation();
       this.props.removeUser();
-      this.clearMessages();
+      this.props.clearMessages();
     } catch({ message }) {
       this.props.hasErrored(message);
     }
@@ -31,23 +31,22 @@ export class App extends Component {
 
   render() {
     const { user } = this.props;
-    const { messages } = this.props;
+    // const { messages } = this.props;
     return (
       <div className="App">
         <Header signOut={this.signOut} />
-        {!user && <WelcomeModal addMessage={this.addMessage} />}
-        {user && <ChatBox addMessage={this.addMessage} messages={messages.messages} />}
+        {!user && <WelcomeModal/>}
+        {user && <ChatBox  />}
       </div>
     );
   }
 }
 
-export const mapStateToProps = ({ user, messages, message }) => ({
+export const mapStateToProps = ({ user, messages}) => ({
   user,
   messages,
-  message
 });
 
-export const mapDispatchToProps = dispatch =>  bindActionCreators({ removeUser, hasErrored, addMessage, clearMessage }, dispatch);
+export const mapDispatchToProps = dispatch =>  bindActionCreators({ removeUser, hasErrored, clearMessages }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

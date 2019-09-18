@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { ChatBox, mapStateToProps, mapDispatchToProps } from './ChatBox';
-import { hasErrored } from '../../actions';
+import { hasErrored, addMessages} from '../../actions';
 import { postMessage } from '../../apiCalls';
 
 jest.mock('../../apiCalls');
@@ -56,7 +56,7 @@ describe('ChatBox component', () => {
 
   it('should call messageChatBot, and clear state when calling handleSubmit pressing Enter', () => {
     wrapper = mount(<ChatBox
-      addMessage={mockAddMessage}
+      addMessages={mockAddMessage}
       messages={mockMessages}
       hasErrored={mockHasErrored}
     />);
@@ -71,7 +71,7 @@ describe('ChatBox component', () => {
 
   it('should call addMessage, messageChatBot, and clear state when calling handleSubmit clicking the button', () => {
     wrapper = mount(<ChatBox
-      addMessage={mockAddMessage}
+      addMessages={mockAddMessage}
       messages={mockMessages}
       hasErrored={mockHasErrored}
     />);
@@ -125,16 +125,19 @@ describe('mapStateToProps', () => {
       feeling: "tired"
     };
 
+    const mockMessages = [{
+      message: 'Hi there, my name is Dr. Watson. I understand that you have been feeling happy. That is super exciting to hear!',
+      isUser: false,
+    }]
+
     const mockState = {
       user: mockUser,
-      messages: [{
-        message: 'Hi there, my name is Dr. Watson. I understand that you have been feeling happy. That is super exciting to hear!',
-        isUser: false,
-      }],
+      messages: mockMessages,
       errorMsg: ''
     };
     const expected = {
-      errorMsg: ''
+      errorMsg: '',
+      messages: mockMessages
     };
     const mappedProps = mapStateToProps(mockState);
 
