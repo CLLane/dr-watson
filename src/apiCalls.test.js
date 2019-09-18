@@ -91,3 +91,19 @@ describe('endConversation', () => {
     expect(endConversation()).rejects.toEqual(Error('fetch failed.'));
   });
 });
+
+it('should be called with the correct url', () => {
+  const url = 'https://drwatson-api.herokuapp.com/api/message'
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ })
+  };
+  postMessage()
+
+  expect(window.fetch).toHaveBeenCalledWith(url, options)
+})
+
+
