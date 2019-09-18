@@ -23,12 +23,16 @@ export class WelcomeModal extends Component {
   handleSubmit = e => {
     const { firstName, lastName, feeling } = this.state;
     e.preventDefault();
-    this.props.createUser({
-      id: Date.now(),
-      firstName,
-      lastName,
-      feeling,
-    });
+    if(firstName && lastName && feeling){
+      this.props.createUser({
+        id: Date.now(),
+        firstName,
+        lastName,
+        feeling,
+      });
+    } else {
+      this.setState({ error: 'Missing a value for an input field'})
+    }
     this.connectToChatBot();
   }
 
@@ -68,7 +72,7 @@ export class WelcomeModal extends Component {
           <option value="stressed">Stressed</option>
           <option value="frustrated">Frustrated</option>
         </select>
-        <button onClick={this.handleSubmit}>
+       <button onClick={this.handleSubmit}>
           Take 5 minutes to check in!
         </button>
       </form>
