@@ -27,8 +27,8 @@ export class ChatBox extends Component {
       const { message } = this.state;
       console.log('message :', message);
       this.props.addMessage(message, true);
-      this.setState({ message: '' });
       this.messageChatBot();
+      this.setState({ message: '' });
     }
   }
 
@@ -47,12 +47,12 @@ export class ChatBox extends Component {
     const { messages, errorMsg } = this.props;
 
     const survey = messages.map((message, i) => {
-      console.log('message :', message);
       let messageThing = message.messages[i];
+      console.log('messageThing :', messageThing);
       return <Message
         key={`message${i}`}
         message={messageThing.message}
-        isUser={message.isUser}
+        isUser={messageThing.isUser}
       />
     })
     return (

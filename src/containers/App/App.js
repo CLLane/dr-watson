@@ -42,9 +42,10 @@ export class App extends Component {
   }
 }
 
-export const mapStateToProps = ({ user, messages }) => ({
+export const mapStateToProps = ({ user, messages, message }) => ({
   user,
-  messages
+  messages,
+  message
 });
 
 export const mapDispatchToProps = dispatch =>  bindActionCreators({ removeUser, hasErrored, addMessage, clearMessage }, dispatch);

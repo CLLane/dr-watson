@@ -1,4 +1,4 @@
-export const user = (state = null, action) => {
+export const user = (state = [], action) => {
   switch(action.type) {
     case 'CREATE_USER':
       return action.user;
