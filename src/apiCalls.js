@@ -32,8 +32,8 @@ export const postMessage = async newMessage => {
     throw Error('Dr Watson is currently down.  Please try again later.')
   }
   const data = await response.json();
-  console.log(data)
-  return data;
+  console.log(data.message)
+  return data.message;
 }
 
 export const endConversation = async () => {

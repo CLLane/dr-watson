@@ -43,6 +43,7 @@ describe('ChatBox component', () => {
   });
 
   it('should update the state when handleChange is called', () => {
+  
     wrapper = mount(<ChatBox
       messages={mockMessages}
       hasErrored={mockHasErrored}
