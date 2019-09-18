@@ -38,10 +38,32 @@ describe('Message', () => {
     }
     expect(messages([], mockAction)).toEqual([{ message: 'user', isUser: true }])
   })
-  // it('should return state', () => {
-  //   let mockAction = {
-  //     type: '',
-  //   }
-  //   expect(user([], mockAction)).toEqual([])
-  // })
+  it('should return state', () => {
+    let mockAction = {
+      type: '',
+    }
+    expect(messages([], mockAction)).toEqual([])
+  })
+})
+describe('errorMessage', () => {
+  it('should return a user object', () => {
+    let mockAction = {
+      type: 'HAS_ERRORED',
+      errorMsg: { message: 'user'}
+    }
+    expect(errorMsg([], mockAction)).toEqual({ message: 'user'})
+  })
+  it('should return null', () => {
+    let mockAction = {
+      type: 'HAS_ERRORED',
+      errorMsg: { message: 'user' }
+    }
+    expect(errorMsg([], mockAction)).toEqual({ message: 'user'})
+  })
+  it('should return state', () => {
+    let mockAction = {
+      type: '',
+    }
+    expect(errorMsg('', mockAction)).toEqual('')
+  })
 })
