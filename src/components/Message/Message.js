@@ -11,4 +11,5 @@ const Message = ({ message, isUser }) => {
   )
 }
 
+
 export default Message;

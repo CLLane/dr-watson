@@ -20,7 +20,7 @@ describe('user', () => {
     let mockAction = {
       type: '',
     }
-    expect(user([], mockAction)).toEqual([])
+    expect(user(null, mockAction)).toEqual(null)
   })
 })
 describe('Message', () => {
