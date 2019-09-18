@@ -56,7 +56,7 @@ describe('ChatBox component', () => {
 
   it('should call messageChatBot, and clear state when calling handleSubmit pressing Enter', () => {
     wrapper = mount(<ChatBox
-      addMessage={mockAddMessage}
+      addMessages={mockAddMessage}
       messages={mockMessages}
       hasErrored={mockHasErrored}
     />);
@@ -71,7 +71,7 @@ describe('ChatBox component', () => {
 
   it('should call addMessage, messageChatBot, and clear state when calling handleSubmit clicking the button', () => {
     wrapper = mount(<ChatBox
-      addMessage={mockAddMessage}
+      addMessages={mockAddMessage}
       messages={mockMessages}
       hasErrored={mockHasErrored}
     />);
